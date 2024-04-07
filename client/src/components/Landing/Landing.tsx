@@ -6,7 +6,7 @@ const Landing = () => {
   const navigate = useNavigate();
 
   const submitHandler = ()=>{
-    navigate('/home');
+    navigate('/servicio');
   }
 
   return (
