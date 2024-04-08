@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {addServicio} from '../../redux/formSlice';
+import { useNavigate } from "react-router-dom";
 
 const Servicio = () => {
 
   const serviceSG = useSelector((state)=>state.services.services);
+  const formSG = useSelector((state)=>state.form);
 
   const[categorias, setCategorias] = useState([]);
   const[servicios, setServicios] = useState([]);
   const[catExpandida, setCatExpandida] = useState(null);
+  const[serSelect, setSerSelect]=useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const defineCategorias = ()=>{
     let categoriasArr:string[]=[];
@@ -33,17 +40,37 @@ const Servicio = () => {
     setServicios(serviciosCategoria);
   };
 
+  const seleccionaServicio = (servicio) =>{
+    dispatch(addServicio(servicio))
+  };
+
+  const submitHandler = ()=>{
+    navigate('/horario');
+  }
+
 
   useEffect(()=>{
     console.log('que tiene serviceSG: ', serviceSG);
     defineCategorias();
     console.log('que tiene estado categorias: ', categorias);
     console.log('que contiene servicios: ', servicios);
+    console.log('que tiene form: ', formSG)
+    
   },[serviceSG])
+  
+  useEffect(()=>{
+    if(formSG.servicio!=""){
+      setSerSelect(true)
+    }else{
+      setSerSelect(false)
+    }
+    console.log('que tiene serSelect: ', serSelect);
+
+  },[formSG])
 
   return (
     <div>
-        <h2>Servicio</h2>
+        <h2>Seleccione un Servicio</h2>
         <form>
           <div>
             <ul>
@@ -59,8 +86,8 @@ const Servicio = () => {
                         {servicios?.map((ser)=>(
                           <li key={ser.id}>
                             <button
+                              onClick={()=>seleccionaServicio(ser)}
                             >{ser.name}</button>
-                            
                           </li>
                         ))}
                       </ul>
@@ -72,6 +99,12 @@ const Servicio = () => {
             
           </div>
         </form>
+        <div>
+          <button
+            disabled={!serSelect}
+            onClick={submitHandler}
+          >Siguiente</button>
+        </div>
     </div>
   )
 }

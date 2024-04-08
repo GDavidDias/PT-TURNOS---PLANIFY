@@ -18,6 +18,7 @@ export const formSlice = createSlice({
             state.horario=action.payload;
         }
     }
-})
+});
 
-export default formSlice
+export const {addServicio, addHorario} = formSlice.actions;
+export default formSlice.reducer;
