@@ -10,15 +10,20 @@ const Landing = () => {
   }
 
   return (
-    <>
-        <div>
-          <h1>Desafío Tecnico</h1>
-          <h2>Programador: Guillermo David Dias</h2>
+    <div>
+        <div className="h-[70vh] flex flex-col m-4 p-2 justify-center items-center">
+          <label
+            className="my-4 text-lg font-medium"
+          >Desafío Tecnico</label>
+          <label
+            className="my-4 text-lg font-medium"
+          >Programador: Guillermo David Dias</label>
           <button
+            className="bg-blue-400 my-2 px-2 py-1 text-base font-bold text-white"
             onClick={submitHandler}
           >Ingresar App</button>
         </div>
-    </>
+    </div>
   )
 };
 

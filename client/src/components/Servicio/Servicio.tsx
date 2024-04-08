@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {addServicio} from '../../redux/formSlice';
+import {addServicio,addEtapaDisplay,addAvance} from '../../redux/formSlice';
 import { useNavigate } from "react-router-dom";
 
 const Servicio = () => {
@@ -68,49 +68,69 @@ const Servicio = () => {
 
   },[formSG])
 
+  useEffect(()=>{
+    //Al ingresar a Servicio
+    dispatch(addEtapaDisplay('Seleccionar servicio'))
+    dispatch(addAvance(30))
+  },[])
+
   return (
     <div>
-        <h2>Seleccione un Servicio</h2>
-        <form>
-          <div>
-            <ul>
-              {
-                categorias?.map((cat,index)=>(
-                  <li key={index}>
+      <div className="min-h-[70vh]">
+        <div className="m-2 p-2 border-2 border-slate-400  overflow-auto h-[68vh]">
+          <label className="text-base font-medium">Categorias</label>
+          <ul>
+            {
+              categorias?.map((cat,index)=>(
+                <li 
+                  key={index}
+                >
+                  <div className="flex justify-between px-2 my-2 bg-slate-100">
                     {cat} 
                     <button
+                      className="text-lg font-bold"
                       onClick={()=>expandirCategoria(cat)}
                     >+</button>
+                  </div>
+                  <div className="flex flex-col px-2">
                     {catExpandida===cat && (
                       <ul>
                         {servicios?.map((ser)=>(
-                          <li key={ser.id}>
+                          <li 
+                            className="border-2 border-slate-400 my-2 p-1"
+                            key={ser.id}
+                          >
                             <div>
                               <div>
                                 <h4>{ser.name}</h4>
                                 <p>{ser.description}</p>  
                               </div>
-                              <button
-                                onClick={()=>seleccionaServicio(ser)}
-                              >Seleccionar</button>
+                              <div className="flex flex-row-reverse mt-2">
+                                <button
+                                  className="bg-slate-400 px-2 py-1 text-sm font-bold text-white "
+                                  onClick={()=>seleccionaServicio(ser)}
+                                >Seleccionar</button>
+                              </div>
                             </div>
                           </li>
                         ))}
                       </ul>
                     )}
-                  </li>
-                ))
-              }
-            </ul>
-            
-          </div>
-        </form>
-        <div>
-          <button
-            disabled={!serSelect}
-            onClick={submitSiguiente}
-          >Siguiente</button>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+          
         </div>
+      </div>
+      <div className="border-t-2 border-slate-400 p-4 flex flex-row-reverse">
+        <button
+          className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
+          disabled={!serSelect}
+          onClick={submitSiguiente}
+        >Siguiente</button>
+      </div>
     </div>
   )
 }

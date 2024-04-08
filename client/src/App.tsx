@@ -32,17 +32,20 @@ const App = () => {
   },[])
 
   return (
-    <div>
-      <div>
+    <div className='w-full h-full'>
+      <div className='h-[7vh]'>
         <Progress/>
       </div>
-      <div>
+      <div className='min-h-[40vh]'>
         <Routes>
           <Route path='/' element={<Landing/>} />        
           <Route path='/servicio' element={<Servicio/>} />
           <Route path='/horario' element={<Horario/>} />
           <Route path='/reserva' element={<Reserva/>} />
         </Routes>
+      </div>
+      <div className='h-[10vh] border-2 bg-yellow-100'>
+
       </div>
     </div>
   )

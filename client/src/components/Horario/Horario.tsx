@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {addHorario} from '../../redux/formSlice';
+import {addHorario,addFecha,addEtapaDisplay,addAvance} from '../../redux/formSlice';
 
 const Horario = () => {
 
@@ -29,8 +29,9 @@ const Horario = () => {
         navigate('/reserva');
     };
 
-    const handleSelectTime=(time:string) =>{
+    const handleSelectTime=(time:string, slot:string) =>{
         dispatch(addHorario(time));
+        dispatch(addFecha(slot));
     };
 
     useEffect(()=>{
@@ -42,44 +43,60 @@ const Horario = () => {
     },[formSG])
 
     useEffect(()=>{
+        dispatch(addEtapaDisplay('Seleccionar horario'));
+        dispatch(addAvance(60));
         console.log('que tiene slotSG: ', slotSG)
         console.log('que tiene formSG: ', formSG)
         verificaHorario();
+
     },[])
 
   return (
     <div>
-        <h2>Proximos turnos disponibles</h2>
-        <div>
-            {habilitaHorarios
-                ?<div>
-                    {
-                        slotSG?.map((slot,index)=>(
-                            <div key={index}>
-                                <h4>{slot.date}</h4>
-                                <div>
-                                    {slot.availableTimeslots?.map((time,index)=>(
-                                        <div key={index}>
-                                            <button
-                                                onClick={()=>handleSelectTime(time)}
-                                            >{time}</button>
-                                        </div>
-                                    ))}
+        <div className="min-h-[70vh]">
+            <div  className="m-2 p-2 border-2 border-slate-400 overflow-auto h-[68vh]">
+            <label className="text-base font-medium">Proximos turnos disponibles</label>
+                {habilitaHorarios
+                    ?<div>
+                        {
+                            slotSG?.map((slot,index)=>(
+                                <div key={index}>
+                                    <label
+                                        className="text-base font-medium"
+                                    >{slot.date}</label>
+                                    <div
+                                        className="flex flex-wrap"
+                                    >
+                                        {slot.availableTimeslots?.map((time,index)=>(
+                                            <div 
+                                                className="m-2"
+                                                key={index}
+                                            >
+                                                <button
+                                                    className="bg-slate-200 py-2 px-6"
+                                                    onClick={()=>handleSelectTime(time,slot.date)}
+                                                >{time}</button>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
-                    }
-                </div>
-                :<div>
-                    <p>Sin Horarios disponibles, disculpe las molestias</p>
-                </div>
-            }
+                            ))
+                        }
+                    </div>
+                    :<div>
+                        <p>Sin Horarios disponibles, disculpe las molestias</p>
+                    </div>
+                }
+            </div>
+
         </div>
-        <div>
+        <div className="border-t-2 border-slate-400 p-4 flex justify-between">
             <button
+                className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
                 onClick={submitAnterior}
             >Anterior</button>
             <button
+                className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
                 disabled={!horarioSelect}
                 onClick={submitSiguiente}
             >Siguiente</button>
