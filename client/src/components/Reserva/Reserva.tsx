@@ -2,7 +2,10 @@
 
 const Reserva = () => {
   return (
-    <div>Reserva</div>
+    <div>
+      <h2>Reserva</h2>
+      
+    </div>
   )
 }
 

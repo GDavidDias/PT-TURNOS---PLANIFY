@@ -44,7 +44,7 @@ const Servicio = () => {
     dispatch(addServicio(servicio))
   };
 
-  const submitHandler = ()=>{
+  const submitSiguiente = ()=>{
     navigate('/horario');
   }
 
@@ -85,9 +85,15 @@ const Servicio = () => {
                       <ul>
                         {servicios?.map((ser)=>(
                           <li key={ser.id}>
-                            <button
-                              onClick={()=>seleccionaServicio(ser)}
-                            >{ser.name}</button>
+                            <div>
+                              <div>
+                                <h4>{ser.name}</h4>
+                                <p>{ser.description}</p>  
+                              </div>
+                              <button
+                                onClick={()=>seleccionaServicio(ser)}
+                              >Seleccionar</button>
+                            </div>
                           </li>
                         ))}
                       </ul>
@@ -102,7 +108,7 @@ const Servicio = () => {
         <div>
           <button
             disabled={!serSelect}
-            onClick={submitHandler}
+            onClick={submitSiguiente}
           >Siguiente</button>
         </div>
     </div>
