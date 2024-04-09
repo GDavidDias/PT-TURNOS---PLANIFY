@@ -1,7 +1,23 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import { Service } from './servicesSlice';
 
-const initialState = {
-    servicio:'',
+interface FormState {
+    servicio:Service,
+    horario:string,
+    fecha:string,
+    etapaDisplay:string,
+    avance:number
+}
+
+const initialService:Service={
+    category:'',
+    description:'',
+    id:0,
+    name:''
+}
+
+const initialState:FormState = {
+    servicio:initialService,
     horario:'',
     fecha:'',
     etapaDisplay:'',
@@ -12,23 +28,23 @@ export const formSlice = createSlice({
     name:'form',
     initialState,
     reducers:{
-        addServicio:(state,action)=>{
+        addServicio:(state,action:PayloadAction<Service>)=>{
             console.log('que tiene servicio en slice: ', action.payload);
             state.servicio=action.payload;
         },
-        addHorario:(state,action)=>{
+        addHorario:(state,action:PayloadAction<string>)=>{
             console.log('que tiene horario en slice: ', action.payload);
             state.horario=action.payload;
         },
-        addFecha:(state,action)=>{
+        addFecha:(state,action:PayloadAction<string>)=>{
             console.log('que tiene fecha en Slice: ', action.payload);
             state.fecha=action.payload;
         },
-        addEtapaDisplay:(state,action)=>{
+        addEtapaDisplay:(state,action:PayloadAction<string>)=>{
             console.log('que tiene etapaDisplay en slice: ', action.payload);
             state.etapaDisplay=action.payload;
         },
-        addAvance:(state,action)=>{
+        addAvance:(state,action:PayloadAction<number>)=>{
             console.log('que tiene avance en slice: ', action.payload);
             state.avance=action.payload;
 

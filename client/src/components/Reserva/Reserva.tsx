@@ -1,54 +1,59 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {addEtapaDisplay,addAvance,clearForm} from '../../redux/formSlice';
+import { useAppSelector } from "../../redux/hooks";
 
 const Reserva = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const formSG = useSelector((state)=>state.form);
-  const[reservaCompleta, setReservaCompleta]=useState(false);
-  const[confirmado, setConfirmado]=useState(false);
+  const formSG = useAppSelector((state)=>state.form);
+  
+  const[reservaCompleta, setReservaCompleta]=useState<boolean>(false);
+  const[confirmado, setConfirmado]=useState<boolean>(false);
 
+  //AL PRESIONAR BOTON NAVEGA A HORARIO
   const handleAnterior = ()=>{
     navigate('/horario');
   }
 
+  //AL PRESIONAR BOTON CONFIRMAR
   const handleSubmit = ()=>{
-    //Presiona boton Confirmar
     setConfirmado(true);
   };
 
+  //VERIFICA QUE ESTEN CARGADOS LOS DATOS DE LA RESERVA, SI ALGUNO ESTA VACIO
+  //NO SE HABILITA EL BOTON CONFIRMAR
   const verificaReserva = ()=>{
-    if(formSG.servicio!="" && formSG.fecha!="" && formSG.horario!=""){
+    if(formSG.servicio && formSG.fecha!="" && formSG.horario!=""){
       setReservaCompleta(true);
     }else{
       setReservaCompleta(false);
     }
   }
 
+  //PONER EN VACIO LOS VALORES DEL FORM
   const handleFinish=async()=>{
-    //PONER EN VACIO LOS VALOR SDEL FORM
     await dispatch(clearForm());
     navigate('/')
   }
 
-  //Se verifica que todos los datos de la reserva esten completos
+  //AL INICIAR VERIFICA QUE LOS DATOS DE LA RESERVA ESTEN COMPLETOS
   useEffect(()=>{
     verificaReserva();
   },[formSG])
 
+  //AL RENDERIZAR SE CARGAN LOS DATOS DE LA BARRA DE PROGRESO
   useEffect(()=>{
-    //Ingresamos a Reserva
     dispatch(addEtapaDisplay('Confirmar turno'))
     dispatch(addAvance(90));
   },[])
 
   return (
     <div>
-      <div className="h-[70vh]">
+      <div className="h-[69vh]">
         <div className="m-4 p-2 border-2 border-slate-400 ">
           <label 
             className="text-base font-medium"
@@ -75,7 +80,6 @@ const Reserva = () => {
           onClick={handleAnterior}
         >Anterior</button>
         <button
-          //className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
           className={`px-2 py-1 text-base font-bold
                     ${(reservaCompleta)
                     ?`bg-slate-400 text-white`

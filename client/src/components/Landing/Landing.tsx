@@ -13,7 +13,7 @@ const Landing = () => {
     <div>
         <div className="h-[70vh] flex flex-col m-4 p-2 justify-center items-center">
           <label
-            className="my-4 text-lg font-medium"
+            className="my-4 text-xl font-bold"
           >Desafío Tecnico</label>
           <label
             className="my-4 text-lg font-medium"

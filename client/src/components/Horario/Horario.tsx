@@ -2,18 +2,21 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {addHorario,addFecha,addEtapaDisplay,addAvance} from '../../redux/formSlice';
+import { useAppSelector } from "../../redux/hooks";
 
 const Horario = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const slotSG = useSelector((state)=>state.services.slots);
-    const formSG = useSelector((state)=>state.form);
-    const [horarioSelect, setHorarioSelect]=useState(false);
+    const slotSG = useAppSelector((state)=>state.services.slots);
+    const formSG = useAppSelector((state)=>state.form);
 
-    const [habilitaHorarios, setHabilitaHorarios]=useState(false);
+    const [horarioSelect, setHorarioSelect]=useState<boolean>(false);
+    const [habilitaHorarios, setHabilitaHorarios]=useState<boolean>(false);
 
+    //VERIFICAMOS QUE EL SERVICIO SELECCIONADO TENGA HORARIOS CARGADOS EN SLOT
+    //DEL ESTADO GLOBAL
     const verificaHorario=()=>{
         if(slotSG[0].serviceId===formSG.servicio.id){
             setHabilitaHorarios(true);
@@ -22,18 +25,25 @@ const Horario = () => {
         }
     };
 
+    //AL PRESIONAR BOTON ANTERIOR, NAVEGA A SERVICIO
     const submitAnterior = ()=>{
         navigate('/servicio');
     };
+
+    //AL PERSIOANR BOTON SIGUIENTE, NAVEGA A RESERVA
     const submitSiguiente =()=>{
         navigate('/reserva');
     };
 
+    //AL PRESIONAR EL BOTON DE UN HORARIO, SE CARGA EN EL ESTADO GLOBAL
+    //LA HORA Y LA FECHA
     const handleSelectTime=(time:string, slot:string) =>{
         dispatch(addHorario(time));
         dispatch(addFecha(slot));
     };
 
+    //AL INICIAR VERIFICA QUE SE HAYA SELECCIONADO UN HORARIO PARA 
+    //HABILITAR EL BOTON SIGUIENTE O NO
     useEffect(()=>{
         if(formSG.horario!=""){
             setHorarioSelect(true);
@@ -42,13 +52,14 @@ const Horario = () => {
         };
     },[formSG])
 
+    //AL RENDERIZAR EL COMPONENTE SE CARGAN LOS DATOS DE LA BARRA DE PROGRESO
+    //Y VERFICA QUE HAYA HORARIOS A MOSTRAR SEGUN SERVICIO SELECCIONADO.
     useEffect(()=>{
         dispatch(addEtapaDisplay('Seleccionar horario'));
         dispatch(addAvance(60));
-        console.log('que tiene slotSG: ', slotSG)
-        console.log('que tiene formSG: ', formSG)
+        //console.log('que tiene slotSG: ', slotSG)
+        //console.log('que tiene formSG: ', formSG)
         verificaHorario();
-
     },[])
 
   return (
@@ -74,7 +85,7 @@ const Horario = () => {
                                             >
                                                 <button
                                                     className="bg-slate-200 py-2 px-6 focus:bg-slate-400 active:bg-slate-400"
-                                                    onClick={()=>handleSelectTime(time,slot.date,index)}
+                                                    onClick={()=>handleSelectTime(time,slot.date)}
                                                 >{time}</button>
                                             </div>
                                         ))}

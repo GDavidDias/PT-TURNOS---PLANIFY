@@ -1,24 +1,29 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {addServicio,addEtapaDisplay,addAvance} from '../../redux/formSlice';
 import { useNavigate } from "react-router-dom";
+import {useAppSelector} from '../../redux/hooks';
+import { Service } from "../../redux/servicesSlice";
+
 
 const Servicio = () => {
 
-  const serviceSG = useSelector((state)=>state.services.services);
-  const formSG = useSelector((state)=>state.form);
+  const serviceSG = useAppSelector((state)=>state.services.services);
+  const formSG = useAppSelector((state)=>state.form);
 
-  const[categorias, setCategorias] = useState([]);
-  const[servicios, setServicios] = useState([]);
-  const[catExpandida, setCatExpandida] = useState(null);
-  const[serSelect, setSerSelect]=useState(false);
+  const[categorias, setCategorias] = useState<string[]>([]);
+  const[servicios, setServicios] = useState<Service[]>([]);
+  const[catExpandida, setCatExpandida] = useState<string>('');
+  const[serSelect, setSerSelect]=useState<boolean>(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //CREA ARREGLO DE CATEGORIAS UNICAS
   const defineCategorias = ()=>{
     let categoriasArr:string[]=[];
-    serviceSG.services?.forEach(serv=>{
+    //console.log('QUE TIENE SERVICES: ', serviceSG);
+    serviceSG.services?.forEach((serv:Service)=>{
       //console.log(serv.category)
       if(!categoriasArr.includes(serv.category)){
         categoriasArr.push(serv.category);
@@ -27,20 +32,23 @@ const Servicio = () => {
     setCategorias(categoriasArr);
   };
 
+  //CREA UN ARREGLO CON LOS SERVICIOS DE UNA CATEGORIA SELECCIONADA
   const expandirCategoria = (cat:string) =>{
-    console.log('ingresa a expandirCategoria')
+    //console.log('ingresa a expandirCategoria')
     if(catExpandida === cat){
-      setCatExpandida(null);
+      setCatExpandida('');
     }else{
       setCatExpandida(cat);
     }
-    let serviciosCategoria=[];
-    serviciosCategoria = serviceSG.services.filter(serv=>serv.category===cat);
-    console.log('serviciosCategoria: ', serviciosCategoria);
+    let serviciosCategoria:Service[]=[];
+    serviciosCategoria = serviceSG.services.filter((serv:Service)=>serv.category===cat);
+    //console.log('serviciosCategoria: ', serviciosCategoria);
     setServicios(serviciosCategoria);
   };
 
-  const seleccionaServicio = (servicio) =>{
+  //AL SELECCIONAR UN SERVICIO, SE CARGA EN ESTADO GLOBAL DE FORM
+  const seleccionaServicio = (servicio:Service) =>{
+    console.log('que tiene servicio: ', servicio)
     dispatch(addServicio(servicio))
   };
 
@@ -49,17 +57,19 @@ const Servicio = () => {
   }
 
 
+  //AL INICIAR SE ARMA LISTADO DE CATEGORIAS UNICAS
   useEffect(()=>{
-    console.log('que tiene serviceSG: ', serviceSG);
+    //console.log('que tiene serviceSG: ', serviceSG);
     defineCategorias();
-    console.log('que tiene estado categorias: ', categorias);
-    console.log('que contiene servicios: ', servicios);
-    console.log('que tiene form: ', formSG)
-    
+    //console.log('que tiene estado categorias: ', categorias);
+    //console.log('que contiene servicios: ', servicios);
+    //console.log('que tiene form: ', formSG)
   },[serviceSG])
   
+  //SI EL SERVICIO SE SELECCIONA Y SE CARGA EN ESTADO GLOBAL CAMBIA ESTADO LOCAL
+  //DE "serSelect", QUE CONTROLA SI SE HABILITA EL BOTON SIGUIENTE O NO
   useEffect(()=>{
-    if(formSG.servicio!=""){
+    if(formSG.servicio){
       setSerSelect(true)
     }else{
       setSerSelect(false)
@@ -68,8 +78,8 @@ const Servicio = () => {
 
   },[formSG])
 
+  //AL RENDERIZAR CARGA EN ESTADO GLOBAL VALORES PARA BARRA PROGRESO
   useEffect(()=>{
-    //Al ingresar a Servicio
     dispatch(addEtapaDisplay('Seleccionar servicio'))
     dispatch(addAvance(30))
   },[])
