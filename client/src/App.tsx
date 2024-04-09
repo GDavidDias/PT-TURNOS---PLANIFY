@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import servicesJson from './data/services.json';
 import slotsJson from './data/slots.json';
 import { useEffect } from 'react';
-import { addServices, addSlots, Service } from './redux/servicesSlice';
+import { addServices, addSlots } from './redux/servicesSlice';
 import Horario from './components/Horario/Horario.tsx';
 import Reserva from './components/Reserva/Reserva.tsx';
 import Progress from './components/Progress/Progress.tsx';
