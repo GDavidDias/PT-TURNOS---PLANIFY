@@ -8,7 +8,7 @@ import { Service } from "../../redux/servicesSlice";
 
 const Servicio = () => {
 
-  const serviceSG = useAppSelector((state)=>state.services.services);
+  const serviceSG = useAppSelector((state)=>state.services);
   const formSG = useAppSelector((state)=>state.form);
 
   const[categorias, setCategorias] = useState<string[]>([]);

@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import servicesJson from './data/services.json';
 import slotsJson from './data/slots.json';
 import { useEffect } from 'react';
-import { addServices, addSlots} from './redux/servicesSlice';
+import { addServices, addSlots, Service } from './redux/servicesSlice';
 import Horario from './components/Horario/Horario.tsx';
 import Reserva from './components/Reserva/Reserva.tsx';
 import Progress from './components/Progress/Progress.tsx';
@@ -19,8 +19,8 @@ const App = () => {
 
   //CARGO EL ARCHIVO SERVICESJSON A ESTADO GLOBAL
   const getAllServices = async() => {
-    const response = servicesJson;
-    await dispatch(addServices(response))
+    const response = servicesJson.services;
+    await dispatch(addServices(response));
   };
 
   //CARGO ARCHIVO SLOTSJSON A ESTADO GLOBAL

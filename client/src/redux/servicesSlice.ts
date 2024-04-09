@@ -28,7 +28,7 @@ export const servicesSlice = createSlice({
     initialState,
     reducers:{
         addServices:(state,action:PayloadAction<Service[]>)=>{
-            //console.log('que tiene services en Slice: ', action.payload);
+            console.log('que tiene services en Slice: ', action.payload);
             state.services = action.payload;
         },
         addSlots:(state,action:PayloadAction<Slot[]>)=>{
