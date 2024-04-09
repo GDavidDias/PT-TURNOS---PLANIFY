@@ -44,7 +44,7 @@ const App = () => {
           <Route path='/reserva' element={<Reserva/>} />
         </Routes>
       </div>
-      <div className='h-[10vh] border-2 bg-yellow-100'>
+      <div className='h-[10vh] border-2'>
 
       </div>
     </div>

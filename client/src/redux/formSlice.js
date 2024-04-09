@@ -32,9 +32,16 @@ export const formSlice = createSlice({
             console.log('que tiene avance en slice: ', action.payload);
             state.avance=action.payload;
 
+        },
+        clearForm:(state)=>{
+            state.servicio='';
+            state.horario='';
+            state.fecha='';
+            state.etapaDisplay='';
+            state.avance=0;
         }
     }
 });
 
-export const {addServicio, addHorario, addFecha, addEtapaDisplay, addAvance} = formSlice.actions;
+export const {addServicio, addHorario, addFecha, addEtapaDisplay, addAvance, clearForm} = formSlice.actions;
 export default formSlice.reducer;

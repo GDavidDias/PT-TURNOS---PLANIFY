@@ -73,8 +73,8 @@ const Horario = () => {
                                                 key={index}
                                             >
                                                 <button
-                                                    className="bg-slate-200 py-2 px-6"
-                                                    onClick={()=>handleSelectTime(time,slot.date)}
+                                                    className="bg-slate-200 py-2 px-6 focus:bg-slate-400 active:bg-slate-400"
+                                                    onClick={()=>handleSelectTime(time,slot.date,index)}
                                                 >{time}</button>
                                             </div>
                                         ))}
@@ -96,7 +96,13 @@ const Horario = () => {
                 onClick={submitAnterior}
             >Anterior</button>
             <button
-                className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
+                //className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
+                className={`px-2 py-1 text-base font-bold
+                    ${(horarioSelect)
+                    ?`bg-slate-400 text-white`
+                    :`bg-slate-200 text-white` 
+                    }
+                `}                
                 disabled={!horarioSelect}
                 onClick={submitSiguiente}
             >Siguiente</button>

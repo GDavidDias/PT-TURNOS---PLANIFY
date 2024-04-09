@@ -107,7 +107,7 @@ const Servicio = () => {
                               </div>
                               <div className="flex flex-row-reverse mt-2">
                                 <button
-                                  className="bg-slate-400 px-2 py-1 text-sm font-bold text-white "
+                                  className="bg-slate-300 px-2 py-1 text-sm font-bold text-white focus:bg-slate-400"
                                   onClick={()=>seleccionaServicio(ser)}
                                 >Seleccionar</button>
                               </div>
@@ -126,7 +126,13 @@ const Servicio = () => {
       </div>
       <div className="border-t-2 border-slate-400 p-4 flex flex-row-reverse">
         <button
-          className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
+          // className="bg-slate-400 px-2 py-1 text-base font-bold text-white "
+          className={`px-2 py-1 text-base font-bold
+            ${(serSelect)
+              ?`bg-slate-400 text-white`
+              :`bg-slate-200 text-white` 
+            }
+          `}
           disabled={!serSelect}
           onClick={submitSiguiente}
         >Siguiente</button>
