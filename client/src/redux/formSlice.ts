@@ -50,7 +50,7 @@ export const formSlice = createSlice({
 
         },
         clearForm:(state)=>{
-            state.servicio='';
+            state.servicio=initialService;
             state.horario='';
             state.fecha='';
             state.etapaDisplay='';
