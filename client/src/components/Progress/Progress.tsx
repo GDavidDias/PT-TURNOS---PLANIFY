@@ -1,8 +1,8 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../redux/hooks";
 
 const Progress = () => {
 
-  const formSG = useSelector((state)=>state.form);
+  const formSG = useAppSelector((state)=>state.form);
 
   return (
     <div className="mx-4 mt-4">
